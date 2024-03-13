@@ -12,6 +12,13 @@ import hashlib
 import inspect
 from threading import Semaphore, Lock, Condition
 
+stremalit_version_tuple = tuple(map(int, st.__version__.split(".")))[:2]
+
+if stremalit_version_tuple < (1, 32):
+    SPINNER_KWARGS = {"cache": True}
+else:
+    SPINNER_KWARGS = {"_cache": True}
+
 
 @dataclass
 class FuncConcurrencyInfo:
@@ -84,7 +91,7 @@ def concurrency_limiter(func=None, max_concurrency=1, show_spinner: bool = True)
                             f"""Function {func.__name__} has approximately
                             {COUNTERS[function_key] - max_concurrency } instances
                             waiting...""",
-                            _cache=True,
+                            **SPINNER_KWARGS,
                         ):
 
                             func_info.condition.wait()
