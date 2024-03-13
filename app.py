@@ -10,7 +10,7 @@ def heavy_computation():
     my_bar = st.progress(0, text=progress_text)
 
     for percent_complete in range(100):
-        time.sleep(0.15)
+        time.sleep(0.1)
         my_bar.progress(percent_complete + 1, text=progress_text)
     st.write("END OF Heavy computation")
     st.balloons()
